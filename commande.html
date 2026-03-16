@@ -1,44 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Order Product</title>
-
-<style>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Product Order</title><style>
 
 body{
-background:#0a0a0a;
-color:#fff;
-font-family:Arial;
+background:#0b0b0b;
+color:white;
+font-family:Arial,Helvetica,sans-serif;
 margin:0;
-padding:0;
 }
 
 .container{
-max-width:1300px;
+max-width:1350px;
 margin:auto;
 padding:40px 20px;
 }
 
 .grid{
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:60px;
+grid-template-columns:1.2fr 1fr;
+gap:70px;
+align-items:start;
 }
+
+/* PRODUCT SLIDER */
 
 .slider{
 position:relative;
 border:1px solid #333;
+background:black;
 }
 
 .slider img{
 width:100%;
-height:420px;
+height:460px;
 object-fit:cover;
-display:block;
 cursor:pointer;
 }
 
@@ -46,16 +41,20 @@ cursor:pointer;
 position:absolute;
 top:50%;
 transform:translateY(-50%);
+width:52px;
+height:52px;
 background:#000;
-color:white;
 border:1px solid #444;
-width:50px;
-height:50px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:28px;
 cursor:pointer;
+}
+
+.arrow svg{
+width:22px;
+height:22px;
+fill:white;
 }
 
 .left{left:0;}
@@ -64,59 +63,83 @@ cursor:pointer;
 .thumbs{
 display:flex;
 gap:10px;
-margin-top:10px;
+margin-top:12px;
 }
 
 .thumbs img{
-width:90px;
-height:70px;
+width:95px;
+height:75px;
 object-fit:cover;
 border:1px solid #333;
 cursor:pointer;
-opacity:0.7;
+opacity:0.6;
 }
 
 .thumbs img:hover{
 opacity:1;
 }
 
-h1{
-font-size:28px;
+/* PRODUCT INFO */
+
+.productName{
+font-size:30px;
+margin-top:20px;
+font-weight:600;
+}
+
+.sizeFixed{
+margin-top:10px;
+font-size:18px;
+color:#aaa;
+}
+
+/* FORM */
+
+.form{
+margin-top:70px;
+border-top:1px solid #333;
+padding-top:40px;
+}
+
+.sectionTitle{
+font-size:22px;
 margin-bottom:20px;
 }
 
 label{
 display:block;
-margin-top:20px;
+margin-top:18px;
 margin-bottom:6px;
+font-size:14px;
+color:#bbb;
 }
 
 input,select{
 width:100%;
 padding:14px;
-background:#111;
+background:#0f0f0f;
 border:1px solid #333;
 color:white;
+font-size:14px;
 }
 
 button{
 width:100%;
+margin-top:28px;
 padding:16px;
-margin-top:25px;
 background:white;
 color:black;
 border:none;
-font-weight:bold;
+font-weight:700;
+font-size:15px;
 cursor:pointer;
 }
 
-.form{
-margin-top:60px;
-border-top:1px solid #333;
-padding-top:40px;
+button:hover{
+background:#ddd;
 }
 
-/* IMAGE VIEWER */
+/* IMAGE VIEW */
 
 .viewer{
 position:fixed;
@@ -164,7 +187,7 @@ animation:pop 0.4s ease;
 }
 
 .msg{
-margin-top:20px;
+margin-top:25px;
 font-size:22px;
 text-align:center;
 }
@@ -175,56 +198,32 @@ text-align:center;
 100%{transform:scale(1)}
 }
 
-</style>
+/* MOBILE */
 
-</head>
+@media(max-width:900px){
 
-<body>
+.grid{
+grid-template-columns:1fr;
+gap:40px;
+}
 
-<div class="container">
+.slider img{
+height:340px;
+}
 
-<div class="grid">
+}
 
-<div>
+</style></head><body><div class="container"><div class="grid"><div><div class="slider"><div class="arrow left" onclick="prevImage()"><svg viewBox="0 0 24 24">
+<path d="M15 18L9 12L15 6"/>
+</svg></div><img id="mainImage"><div class="arrow right" onclick="nextImage()"><svg viewBox="0 0 24 24">
+<path d="M9 18L15 12L9 6"/>
+</svg></div></div><div class="thumbs" id="thumbs"></div><div class="productName" id="productName"></div><div class="sizeFixed">
+Size: 140 × 50 cm
+</div></div><div><label>Quantity</label>
 
-<div class="slider">
-
-<div class="arrow left" onclick="prevImage()">‹</div>
-
-<img id="mainImage">
-
-<div class="arrow right" onclick="nextImage()">›</div>
-
-</div>
-
-<div class="thumbs" id="thumbs"></div>
-
-</div>
-
-<div>
-
-<h1 id="productName"></h1>
-
-<label>Choose Size</label>
-
-<select id="size">
-<option>140 / 80 cm</option>
-<option>140 / 60 cm</option>
-</select>
-
-<label>Quantity</label>
-
-<input id="quantity" type="number" value="1" min="1">
-
-</div>
-
-</div>
-
-<div class="form">
-
-<h2>Customer Information</h2>
-
-<label>First Name</label>
+<input id="quantity" type="number" value="1" min="1"></div></div><div class="form"><div class="sectionTitle">
+Customer Information | معلومات الزبون
+</div><label>First Name</label>
 <input id="name">
 
 <label>Last Name</label>
@@ -244,26 +243,13 @@ text-align:center;
 <select id="delivery">
 <option>Delivery To Office</option>
 <option>Home Delivery</option>
-</select>
-
-<button onclick="sendOrder()">Confirm Order</button>
-
-</div>
-
-</div>
-
-<div class="viewer" id="viewer" onclick="closeViewer()">
+</select><button onclick="sendOrder()">
+Confirm Order
+</button></div></div><div class="viewer" id="viewer" onclick="closeViewer()">
 <img id="viewerImg">
-</div>
-
-<div class="success" id="success">
-<div>
-<div class="check">✔</div>
-<div class="msg">Thank you! Your order has been sent.</div>
-</div>
-</div>
-
-<script>
+</div><div class="success" id="success"><div><div class="check">✔</div><div class="msg">
+Thank you! Your order has been sent.
+</div></div></div><script>
 
 /* PRODUCTS */
 
@@ -301,21 +287,30 @@ images:[
 
 }
 
+/* GET PRODUCT */
+
 const params=new URLSearchParams(window.location.search)
+
 const product=params.get("product")
+
 const data=products[product]
 
 document.getElementById("productName").innerText=data.name
 
 let current=0
+
 const imgs=data.images
 
 const main=document.getElementById("mainImage")
+
 const thumbs=document.getElementById("thumbs")
 
 function showImage(i){
+
 current=i
+
 main.src=imgs[i]
+
 }
 
 imgs.forEach((img,i)=>{
@@ -325,7 +320,9 @@ const t=document.createElement("img")
 t.src=img
 
 t.onclick=function(){
+
 showImage(i)
+
 }
 
 thumbs.appendChild(t)
@@ -339,7 +336,9 @@ function nextImage(){
 current++
 
 if(current>=imgs.length){
+
 current=0
+
 }
 
 showImage(current)
@@ -351,18 +350,21 @@ function prevImage(){
 current--
 
 if(current<0){
+
 current=imgs.length-1
+
 }
 
 showImage(current)
 
 }
 
-/* ZOOM IMAGE */
+/* IMAGE ZOOM */
 
 main.onclick=function(){
 
 document.getElementById("viewer").style.display="flex"
+
 document.getElementById("viewerImg").src=main.src
 
 }
@@ -373,7 +375,7 @@ document.getElementById("viewer").style.display="none"
 
 }
 
-/* SEND ORDER */
+/* ORDER */
 
 function sendOrder(){
 
@@ -382,9 +384,10 @@ const lastname=document.getElementById("lastname").value
 const phone=document.getElementById("phone").value
 const wilaya=document.getElementById("wilaya").value
 const baladiya=document.getElementById("baladiya").value
-const size=document.getElementById("size").value
 const quantity=document.getElementById("quantity").value
 const delivery=document.getElementById("delivery").value
+
+const size="140 × 50 cm"
 
 const message=
 
@@ -393,6 +396,7 @@ const message=
 Product: ${data.name}
 
 Size: ${size}
+
 Quantity: ${quantity}
 
 Name: ${name} ${lastname}
@@ -400,11 +404,13 @@ Name: ${name} ${lastname}
 Phone: ${phone}
 
 Wilaya: ${wilaya}
+
 Baladiya: ${baladiya}
 
 Delivery: ${delivery}`
 
 const telegram_bot_token="PUT_YOUR_BOT_TOKEN"
+
 const telegram_chat_id="PUT_YOUR_CHAT_ID"
 
 fetch(`https://api.telegram.org/bot${telegram_bot_token}/sendMessage`,{
@@ -418,6 +424,7 @@ headers:{
 body:JSON.stringify({
 
 chat_id:telegram_chat_id,
+
 text:message
 
 })
@@ -428,7 +435,5 @@ document.getElementById("success").style.display="flex"
 
 }
 
-</script>
-
-</body>
-  </html>
+</script></body>
+                                                                   </html>
