@@ -18,7 +18,7 @@ padding:0;
 }
 
 .container{
-max-width:1200px;
+max-width:1300px;
 margin:auto;
 padding:40px 20px;
 }
@@ -32,12 +32,15 @@ gap:60px;
 .images{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
+gap:12px;
 }
 
 .images img{
 width:100%;
+height:260px;
+object-fit:cover;
 border:1px solid #333;
+cursor:pointer;
 }
 
 h1{
@@ -53,18 +56,15 @@ font-size:14px;
 }
 
 input,select{
-
 width:100%;
 padding:14px;
 background:#111;
 border:1px solid #333;
 color:white;
 font-size:14px;
-
 }
 
 button{
-
 width:100%;
 padding:16px;
 margin-top:20px;
@@ -73,13 +73,32 @@ color:black;
 border:none;
 font-weight:bold;
 cursor:pointer;
-
 }
 
 .form{
 margin-top:50px;
 border-top:1px solid #333;
 padding-top:40px;
+}
+
+/* IMAGE VIEWER */
+
+.viewer{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:999;
+}
+
+.viewer img{
+max-width:90%;
+max-height:90%;
 }
 
 </style>
@@ -135,10 +154,8 @@ padding-top:40px;
 <label>Delivery Method</label>
 
 <select id="delivery">
-
 <option>Office Delivery</option>
 <option>Home Delivery</option>
-
 </select>
 
 <button onclick="sendOrder()">Confirm Order</button>
@@ -147,11 +164,15 @@ padding-top:40px;
 
 </div>
 
+<!-- IMAGE VIEWER -->
+
+<div class="viewer" id="viewer" onclick="closeViewer()">
+<img id="viewerImg">
+</div>
+
 <script>
 
-/* =======================
-PRODUCT DATABASE
-======================= */
+/* PRODUCTS */
 
 const products = {
 
@@ -187,13 +208,10 @@ images:[
 
 }
 
-/* =======================
-GET PRODUCT FROM URL
-======================= */
+/* GET PRODUCT */
 
 const params = new URLSearchParams(window.location.search)
 const product = params.get("product")
-
 const data = products[product]
 
 document.getElementById("productName").innerText = data.name
@@ -201,15 +219,29 @@ document.getElementById("productName").innerText = data.name
 let imagesHTML=""
 
 data.images.forEach(img=>{
-imagesHTML+=`<img src="${img}">`
+imagesHTML+=`<img src="${img}" onclick="openViewer('${img}')">`
 })
 
 document.getElementById("productImages").innerHTML = imagesHTML
 
 
-/* =======================
-SEND ORDER TO TELEGRAM
-======================= */
+/* IMAGE VIEWER */
+
+function openViewer(src){
+
+document.getElementById("viewer").style.display="flex"
+document.getElementById("viewerImg").src=src
+
+}
+
+function closeViewer(){
+
+document.getElementById("viewer").style.display="none"
+
+}
+
+
+/* TELEGRAM ORDER */
 
 function sendOrder(){
 
@@ -232,6 +264,7 @@ Size: ${size}
 Quantity: ${quantity}
 
 Name: ${name} ${lastname}
+
 Phone: ${phone}
 
 Wilaya: ${wilaya}
@@ -239,10 +272,6 @@ Baladiya: ${baladiya}
 
 Delivery: ${delivery}`
 
-
-/* =======================
-PUT YOUR TELEGRAM API HERE
-======================= */
 
 const telegram_bot_token="PUT_YOUR_BOT_TOKEN_HERE"
 const telegram_chat_id="PUT_YOUR_CHAT_ID_HERE"
@@ -259,7 +288,6 @@ headers:{
 body:JSON.stringify({
 
 chat_id:telegram_chat_id,
-
 text:message
 
 })
@@ -274,4 +302,4 @@ alert("Order Sent Successfully")
 
 </body>
 
-  </html>
+</html>
