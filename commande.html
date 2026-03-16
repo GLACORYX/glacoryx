@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Order Product</title>
+
+<style>
+
+body{
+background:#0a0a0a;
+color:#fff;
+font-family:Arial;
+margin:0;
+padding:0;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px 20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:60px;
+}
+
+.images{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.images img{
+width:100%;
+border:1px solid #333;
+}
+
+h1{
+font-size:28px;
+margin-bottom:20px;
+}
+
+label{
+display:block;
+margin-top:20px;
+margin-bottom:6px;
+font-size:14px;
+}
+
+input,select{
+
+width:100%;
+padding:14px;
+background:#111;
+border:1px solid #333;
+color:white;
+font-size:14px;
+
+}
+
+button{
+
+width:100%;
+padding:16px;
+margin-top:20px;
+background:white;
+color:black;
+border:none;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+.form{
+margin-top:50px;
+border-top:1px solid #333;
+padding-top:40px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="grid">
+
+<div class="images" id="productImages"></div>
+
+<div>
+
+<h1 id="productName"></h1>
+
+<label>Choose Size</label>
+
+<select id="size">
+<option>140 / 80 cm</option>
+<option>140 / 60 cm</option>
+</select>
+
+<label>Quantity</label>
+
+<input id="quantity" type="number" value="1" min="1">
+
+</div>
+
+</div>
+
+<div class="form">
+
+<h2>Customer Information</h2>
+
+<label>First Name</label>
+<input id="name">
+
+<label>Last Name</label>
+<input id="lastname">
+
+<label>Phone Number</label>
+<input id="phone">
+
+<label>Wilaya</label>
+<input id="wilaya">
+
+<label>Baladiya</label>
+<input id="baladiya">
+
+<label>Delivery Method</label>
+
+<select id="delivery">
+
+<option>Office Delivery</option>
+<option>Home Delivery</option>
+
+</select>
+
+<button onclick="sendOrder()">Confirm Order</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* =======================
+PRODUCT DATABASE
+======================= */
+
+const products = {
+
+bugs:{
+name:"The Galactic BUGS Led Sign",
+images:[
+"images/bugs1.jpg",
+"images/bugs2.jpg",
+"images/bugs3.jpg",
+"images/bugs4.jpg"
+]
+},
+
+gogo:{
+name:"The Galactic GOGO Led Sign",
+images:[
+"images/gogo1.jpg",
+"images/gogo2.jpg",
+"images/gogo3.jpg",
+"images/gogo4.jpg"
+]
+},
+
+waks:{
+name:"The Galactic WAKS Led Sign",
+images:[
+"images/waks1.jpg",
+"images/waks2.jpg",
+"images/waks3.jpg",
+"images/waks4.jpg"
+]
+}
+
+}
+
+/* =======================
+GET PRODUCT FROM URL
+======================= */
+
+const params = new URLSearchParams(window.location.search)
+const product = params.get("product")
+
+const data = products[product]
+
+document.getElementById("productName").innerText = data.name
+
+let imagesHTML=""
+
+data.images.forEach(img=>{
+imagesHTML+=`<img src="${img}">`
+})
+
+document.getElementById("productImages").innerHTML = imagesHTML
+
+
+/* =======================
+SEND ORDER TO TELEGRAM
+======================= */
+
+function sendOrder(){
+
+const name=document.getElementById("name").value
+const lastname=document.getElementById("lastname").value
+const phone=document.getElementById("phone").value
+const wilaya=document.getElementById("wilaya").value
+const baladiya=document.getElementById("baladiya").value
+const size=document.getElementById("size").value
+const quantity=document.getElementById("quantity").value
+const delivery=document.getElementById("delivery").value
+
+const message=
+
+`NEW ORDER
+
+Product: ${data.name}
+
+Size: ${size}
+Quantity: ${quantity}
+
+Name: ${name} ${lastname}
+Phone: ${phone}
+
+Wilaya: ${wilaya}
+Baladiya: ${baladiya}
+
+Delivery: ${delivery}`
+
+
+/* =======================
+PUT YOUR TELEGRAM API HERE
+======================= */
+
+const telegram_bot_token="PUT_YOUR_BOT_TOKEN_HERE"
+const telegram_chat_id="PUT_YOUR_CHAT_ID_HERE"
+
+
+fetch(`https://api.telegram.org/bot${telegram_bot_token}/sendMessage`,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+chat_id:telegram_chat_id,
+
+text:message
+
+})
+
+})
+
+alert("Order Sent Successfully")
+
+}
+
+</script>
+
+</body>
+
+  </html>
