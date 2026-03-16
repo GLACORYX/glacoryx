@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commande</title>
+
+<style>
+
+body{
+background:#0c0c0c;
+color:white;
+font-family:Arial;
+margin:0;
+padding:20px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+.product{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+}
+
+.images img{
+width:100%;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+select,input{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#1a1a1a;
+border:1px solid #444;
+color:white;
+border-radius:6px;
+}
+
+button{
+margin-top:15px;
+padding:14px;
+width:100%;
+background:white;
+color:black;
+border:none;
+font-weight:bold;
+cursor:pointer;
+border-radius:6px;
+}
+
+.form{
+margin-top:40px;
+}
+
+h2{
+margin-bottom:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="product">
+
+<div class="images" id="productImages"></div>
+
+<div>
+
+<h2 id="productName"></h2>
+
+<label>Choose Size</label>
+
+<select>
+<option>140 / 80 cm</option>
+<option>140 / 60 cm</option>
+</select>
+
+<label>Quantity</label>
+
+<input type="number" value="1">
+
+</div>
+
+</div>
+
+<div class="form">
+
+<h2>Customer Information</h2>
+
+<input placeholder="Name">
+
+<input placeholder="Last Name">
+
+<input placeholder="Phone Number">
+
+<input placeholder="Wilaya">
+
+<input placeholder="Baladiya">
+
+<label>Delivery</label>
+
+<select>
+<option>Delivery to Office</option>
+<option>Delivery to Home</option>
+</select>
+
+<button>Confirm Order</button>
+
+</div>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const product = params.get("product");
+
+const products = {
+
+bugs:{
+name:"The Galactic BUGS Led Sign",
+images:[
+"images/bugs1.jpg",
+"images/bugs2.jpg",
+"images/bugs3.jpg",
+"images/bugs4.jpg"
+]
+},
+
+gogo:{
+name:"The Galactic GOGO Led Sign",
+images:[
+"images/gogo1.jpg",
+"images/gogo2.jpg",
+"images/gogo3.jpg",
+"images/gogo4.jpg"
+]
+}
+
+};
+
+const data = products[product];
+
+document.getElementById("productName").innerText = data.name;
+
+let html="";
+
+data.images.forEach(img=>{
+html+=`<img src="${img}">`;
+});
+
+document.getElementById("productImages").innerHTML = html;
+
+</script>
+
+</body>
+</html>
